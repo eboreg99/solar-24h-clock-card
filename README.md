@@ -21,17 +21,13 @@ Most clocks are centred around midnight. This one is centred around the sun: sol
 
 All solar data is read live from the `sun.sun` entity in Home Assistant.
 
-## Installation
+## Installation via HACS
 
-1. Copy `solar-24h-clock-card.js` to `/config/www/`
-2. Add the resource in Lovelace (Settings → Dashboards → Resources):
-   - URL: `/local/solar-24h-clock-card.js`
-   - Type: `JavaScript module`
-3. Add the card to your dashboard:
-
-```yaml
-type: custom:solar-24h-clock-card
-```
+1. Öffne HACS in Home Assistant
+2. Gehe zu "Frontend" → "Custom repositories"
+3. Füge `https://github.com/eboreg99/solar-24h-clock-card` hinzu (Kategorie: Lovelace)
+4. Installiere die Karte
+5. Füge die Karte deinem Dashboard hinzu (Typ: `custom:solar-24h-clock-card`)
 
 ## Configuration
 
