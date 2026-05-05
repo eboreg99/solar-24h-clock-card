@@ -3,5 +3,6 @@
   "description": "Home Assistant card featuring a 24-hour clock aligned with the sun cycle.",
   "version": "1.0.0",
   "type": "lovelace",
-  "content_in_root": true
+  "content_in_root": true,
+  "filename": "solar-24h-clock-card.js"
 }
