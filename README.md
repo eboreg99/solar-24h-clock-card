@@ -2,6 +2,8 @@
 
 A custom Lovelace card for Home Assistant that displays an analog 24-hour clock — with solar noon at the top instead of midnight.
 
+#VibeCoding
+
 ## Concept
 
 Most clocks are centred around midnight. This one is centred around the sun: solar noon is always at the 12 o'clock position, and the dial rotates accordingly. This makes it easy to see at a glance how much daylight is left, where the sun currently stands, and how the day relates to natural light.
