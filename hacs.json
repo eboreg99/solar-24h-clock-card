@@ -1,7 +1,7 @@
 {
   "name": "Solar 24h Clock Card",
   "description": "Home Assistant card featuring a 24-hour clock aligned with the sun cycle.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "lovelace",
   "content_in_root": true
 }
