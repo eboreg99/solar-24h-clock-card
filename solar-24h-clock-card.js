@@ -503,6 +503,75 @@ class Solar24hClockCard extends HTMLElement {
 
 customElements.define('solar-24h-clock-card', Solar24hClockCard);
 
+/* ─────────────────────────────────────────────────────────────────────────
+ * Visueller Editor
+ * ───────────────────────────────────────────────────────────────────────── */
+const EDITOR_SCHEMA = [
+  { name: 'sun_entity', selector: { entity: { domain: 'sun' } } },
+  { name: 'title', selector: { text: {} } },
+  {
+    name: 'size',
+    selector: { number: { min: 150, max: 600, step: 10, mode: 'slider', unit_of_measurement: 'px' } },
+  },
+];
+
+const EDITOR_LABELS = {
+  sun_entity: 'Sonnen-Entität',
+  title: 'Titel (optional)',
+  size: 'Grösse',
+};
+
+class Solar24hClockCardEditor extends HTMLElement {
+  constructor() {
+    super();
+    this._config = {};
+    this._hass = null;
+    this._form = null;
+  }
+
+  setConfig(config) {
+    this._config = config || {};
+    this._render();
+  }
+
+  set hass(hass) {
+    this._hass = hass;
+    this._render();
+  }
+
+  _render() {
+    if (!this._config) return;
+
+    if (!this._form) {
+      this._form = document.createElement('ha-form');
+      this._form.computeLabel = (schema) => EDITOR_LABELS[schema.name] || schema.name;
+      this._form.addEventListener('value-changed', (ev) => {
+        ev.stopPropagation();
+        this.dispatchEvent(
+          new CustomEvent('config-changed', {
+            detail: { config: ev.detail.value },
+            bubbles: true,
+            composed: true,
+          })
+        );
+      });
+      this.appendChild(this._form);
+    }
+
+    // Defaults für die Anzeige im Editor auffüllen
+    this._form.hass = this._hass;
+    this._form.schema = EDITOR_SCHEMA;
+    this._form.data = {
+      sun_entity: 'sun.sun',
+      title: '',
+      size: 300,
+      ...this._config,
+    };
+  }
+}
+
+customElements.define('solar-24h-clock-card-editor', Solar24hClockCardEditor);
+
 window.customCards = window.customCards || [];
 window.customCards.push({
   type: 'solar-24h-clock-card',
