@@ -92,11 +92,22 @@ class Solar24hClockCard extends HTMLElement {
         canvas {
           display: block;
           max-width: 100%;
+          flex: 0 0 auto;
+        }
+        .clock-row {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: center;
+          gap: 28px;
+          flex-wrap: wrap;
         }
         .sun-info {
           display: flex;
-          gap: 24px;
-          align-items: center;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 16px;
           font-size: 12px;
           color: var(--secondary-text-color, #888);
           letter-spacing: 0.04em;
@@ -104,7 +115,7 @@ class Solar24hClockCard extends HTMLElement {
         .sun-info .item {
           display: flex;
           flex-direction: column;
-          align-items: center;
+          align-items: flex-start;
           gap: 2px;
         }
         .sun-info .label {
@@ -114,72 +125,33 @@ class Solar24hClockCard extends HTMLElement {
           opacity: 0.6;
         }
         .sun-info .value {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: 500;
           color: var(--primary-text-color, #e0e0e0);
           font-family: var(--code-font-family, monospace);
         }
-        .elevation-bar-wrap {
-          width: 100%;
-          max-width: ${size}px;
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-        }
-        .elevation-label {
-          font-size: 10px;
-          text-transform: uppercase;
-          letter-spacing: 0.1em;
-          color: var(--secondary-text-color, #888);
-          opacity: 0.6;
-        }
-        .elevation-bar-bg {
-          height: 4px;
-          border-radius: 2px;
-          background: var(--divider-color, rgba(255,255,255,0.08));
-          position: relative;
-          overflow: visible;
-        }
-        .elevation-bar-fill {
-          height: 100%;
-          border-radius: 2px;
-          background: linear-gradient(to right, #f59e0b, #fde68a);
-          transition: width 0.5s ease;
-          min-width: 4px;
-        }
-        .elevation-bar-neg {
-          position: absolute;
-          top: 0; right: 0;
-          height: 100%;
-          border-radius: 2px;
-          background: var(--divider-color, rgba(255,255,255,0.08));
-        }
       </style>
       <ha-card>
         ${this._config.title ? `<div class="card-title">${this._config.title}</div>` : ''}
-        <canvas id="clk" width="${size}" height="${size}"></canvas>
-        <div class="sun-info">
-          <div class="item">
-            <span class="label">Aufgang</span>
-            <span class="value" id="sunrise-val">--:--</span>
-          </div>
-          <div class="item">
-            <span class="label">Elevation</span>
-            <span class="value" id="elev-val">--°</span>
-          </div>
-          <div class="item">
-            <span class="label">Azimut</span>
-            <span class="value" id="azim-val">---°</span>
-          </div>
-          <div class="item">
-            <span class="label">Untergang</span>
-            <span class="value" id="sunset-val">--:--</span>
-          </div>
-        </div>
-        <div class="elevation-bar-wrap">
-          <span class="elevation-label">Sonnenhöhe</span>
-          <div class="elevation-bar-bg">
-            <div class="elevation-bar-fill" id="elev-bar" style="width:0%"></div>
+        <div class="clock-row">
+          <canvas id="clk" width="${size}" height="${size}"></canvas>
+          <div class="sun-info">
+            <div class="item">
+              <span class="label">Aufgang</span>
+              <span class="value" id="sunrise-val">--:--</span>
+            </div>
+            <div class="item">
+              <span class="label">Elevation</span>
+              <span class="value" id="elev-val">--°</span>
+            </div>
+            <div class="item">
+              <span class="label">Azimut</span>
+              <span class="value" id="azim-val">---°</span>
+            </div>
+            <div class="item">
+              <span class="label">Untergang</span>
+              <span class="value" id="sunset-val">--:--</span>
+            </div>
           </div>
         </div>
       </ha-card>
@@ -235,9 +207,6 @@ class Solar24hClockCard extends HTMLElement {
     if (attr.elevation !== undefined) {
       this._elevation = attr.elevation;
       this.shadowRoot.getElementById('elev-val').textContent = attr.elevation.toFixed(1) + '°';
-      // Bar: elevation range roughly -18° (astronomical twilight) to ~70° (max summer)
-      const pct = Math.max(0, Math.min(100, (attr.elevation / 70) * 100));
-      this.shadowRoot.getElementById('elev-bar').style.width = pct + '%';
     }
   }
 
