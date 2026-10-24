@@ -13,7 +13,7 @@
  *   size: 300                   # optional, canvas size in px (default: 300)
  *
  * Data from sun.sun attributes:
- *   next_noon       → solar noon time (rotates dial so noon is at top)
+ *   next_noon       → solar noon time (rotates dial so noon is at top, shown as 'Zenit')
  *   next_rising     → sunrise marker
  *   next_setting    → sunset marker
  *   azimuth         → sun position indicator on dial
@@ -141,6 +141,10 @@ class Solar24hClockCard extends HTMLElement {
               <span class="value" id="sunrise-val">--:--</span>
             </div>
             <div class="item">
+              <span class="label">Zenit</span>
+              <span class="value" id="noon-val">--:--</span>
+            </div>
+            <div class="item">
               <span class="label">Elevation</span>
               <span class="value" id="elev-val">--°</span>
             </div>
@@ -177,6 +181,8 @@ class Solar24hClockCard extends HTMLElement {
       const noonDate = new Date(noonStr);
       // Convert to local hours (fractional)
       this._solarNoonOffsetHours = noonDate.getHours() + noonDate.getMinutes() / 60 + noonDate.getSeconds() / 3600;
+      this.shadowRoot.getElementById('noon-val').textContent =
+        String(noonDate.getHours()).padStart(2,'0') + ':' + String(noonDate.getMinutes()).padStart(2,'0');
     }
 
     // Sunrise
